@@ -1,42 +1,25 @@
 import { Stage, Layer } from 'react-konva';
-import Node from './Node';
+import Node from './NavBar/Graph/Node';
 import Map from './Map';
-import { useEffect, useRef, useState } from 'react';
+import useGraph from '../store/useGraph';
+import Link from './NavBar/Graph/Link';
+import usePositionMouse from '../hook/usePositionMouse';
 
 const Canvas = () => {
-    const CanvaRef = useRef(null)
-    const [postitionMouse, setPostitionMouse] = useState({ x: 0, y: 0 })
-    const [arrNodes, setArrNodes] = useState([{ name: 'A', fill: 'red', x: 100, y: 100 }])
+    const [x, y] = usePositionMouse()
+    const { arrNodes, addNode, arrLinks } = useGraph()
+
     const handleCreateNode = () => {
-        let label: string = prompt('Ingrese el label:')
-        setArrNodes((state) => ([...state, { ...postitionMouse, fill: 'blue', 'name': label }]))
+        const name: string = prompt('Ingres el nombre')
+        addNode({ fill: 'red', id: String(Date.now()), name, x, y })
     }
-    const handleMoveNode = (label: string) => {
-        console.log(arrNodes);
-
-        setArrNodes(state => state.map(node => {
-            if (node.name == label) {
-                return ({ ...node, ...postitionMouse })
-            }
-            return node
-        }))
-
-    }
-    useEffect(() => {
-        const mouseClick = (e) => {
-            setPostitionMouse({ x: e.clientX, y: e.clientY })
-        }
-        window.addEventListener('mousemove', mouseClick)
-        return () => {
-            window.removeEventListener('mousemove', mouseClick)
-        }
-    }, [])
 
     return (
-        <Stage width={window.innerWidth} ref={CanvaRef} onDblClick={handleCreateNode} height={window.innerHeight}>
+        <Stage width={window.innerWidth} onDblClick={handleCreateNode} height={window.innerHeight}>
             <Layer>
                 <Map />
-                {arrNodes.map((item, index) => <Node key={index} onClick={handleMoveNode}  {...item} />)}
+                {arrLinks.map(link => <Link key={link.id} {...link} />)}
+                {arrNodes.map((item) => <Node key={item.id}  {...item} />)}
             </Layer>
         </Stage>
     )

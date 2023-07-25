@@ -48,11 +48,13 @@ function buildGraph(nodes: Node[], edges: Edge[]): Graph {
 
 interface ShortestPathResult {
   nodes: (Node & { distance: number })[]
-  edges: Edge[]
+  edges: Edge[] // Modificar el tipo aquí para que incluya los edges
 }
 
 function dijkstra(
   graph: Graph,
+  nodes: Node[],
+  edges: Edge[],
   startNode: string,
   endNode: string
 ): ShortestPathResult | null {
@@ -115,7 +117,7 @@ function dijkstra(
     }
   }
 
-  return null
+  return null // Si no se encuentra un camino desde el nodo inicial al final
 }
 
-export default { dijkstra, buildGraph }
+export { dijkstra, buildGraph }

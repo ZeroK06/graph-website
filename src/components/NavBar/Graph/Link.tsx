@@ -18,7 +18,7 @@ const Link: React.FC<LinkProps> = ({ name, fromX, fromY, toX, toY, fill, distanc
     return (
         <Group>
             <Line stroke={fill} strokeWidth={2} points={[fromX, fromY, toX, toY]} />
-            <Text x={newX} y={newY} text={String(distance)} />
+            <Text x={newX} y={newY} text={String(distance)} fill='white' />
         </Group>
     )
 }

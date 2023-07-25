@@ -17,7 +17,7 @@ const Buttom: React.FC<ButtomProps> = ({ type, label, Icon, size, onClick, full,
         ${type == 'solid' && 'bg-gradient-to-r from-purple-600 to-purple-400 text-white border-transparent'}
         ${type == 'outline' && 'border-purple-600 backdrop-blur-sm text-purple-600'}
         ${full && 'w-full'}
-        ${animate && 'hover:scale-105 transition duration-[400] active:scale-95'}
+        ${animate ? 'hover:scale-[1.05] transition duration-[400] active:scale-[0.97]' : 'hover:opacity-90'}
         `}>
             {Icon && <Icon size={20} />}
             <span>{label}</span>

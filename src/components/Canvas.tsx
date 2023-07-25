@@ -7,15 +7,21 @@ import usePositionMouse from '../hook/usePositionMouse';
 
 const Canvas = () => {
     const [x, y] = usePositionMouse()
-    const { arrNodes, addNode, arrLinks } = useGraph()
+    const { arrNodes, addNode, arrLinks, isNew, changeNew } = useGraph()
 
     const handleCreateNode = () => {
-        const name: string = prompt('Ingres el nombre')
-        addNode({ fill: 'red', id: String(Date.now()), name, x, y })
+        if (isNew) {
+            const a = arrNodes.map(node => node.name)
+            let name: string
+            do {
+                name = prompt('Ingrese el nombre del nuevo nodo:')
+            } while (a.includes(name));
+            addNode({ fill: 'purple', id: String(Date.now()), name, x, y })
+            changeNew(false)
+        }
     }
-
     return (
-        <Stage width={window.innerWidth} onDblClick={handleCreateNode} height={window.innerHeight}>
+        <Stage width={window.innerWidth} onDblClick={handleCreateNode} height={window.innerHeight} >
             <Layer>
                 <Map />
                 {arrLinks.map(link => <Link key={link.id} {...link} />)}
